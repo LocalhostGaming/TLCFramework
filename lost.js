@@ -16,7 +16,7 @@ export default class Lost {
   constructor(object) {
     const { mode, data } = object;
 
-    this.#mode = mode || process.env.NODE_ENV || 'production';
+    if (mode) this.#mode = mode || process.env.NODE_ENV || 'production';
 
     const isDevelopment = this.#mode !== 'production';
 
@@ -29,7 +29,7 @@ export default class Lost {
 
     this.#storeEvent = new Event();
 
-    Lost.setData(this, data);
+    if (data) Lost.setData(this, data);
   }
 
   get mode() {
