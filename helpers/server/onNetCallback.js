@@ -13,6 +13,7 @@ onNet('_internal_:fromClientEventCallback', async (eventName, ...params) => {
       });
     }
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.log(error.message);
   }
 });
