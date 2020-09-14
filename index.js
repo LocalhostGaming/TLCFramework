@@ -1,3 +1,3 @@
-import Lost from './lost';
+import Lost from './core/lost';
 
 export default Lost;
