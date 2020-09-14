@@ -65,6 +65,8 @@ export default class Lost {
     }
 
     stores[key] = new Store(this.#mode, object);
+
+    return stores[key];
   }
 
   emit(event, data = {}) {
