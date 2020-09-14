@@ -14,9 +14,13 @@ export default class Lost {
   #modules = [];
 
   constructor(object) {
-    const { mode, data } = object;
+    const { mode, data } = object || {};
 
-    if (mode) this.#mode = mode || process.env.NODE_ENV || 'production';
+    if (mode) {
+      this.#mode = mode;
+    } else {
+      this.#mode = 'production';
+    }
 
     const isDevelopment = this.#mode !== 'production';
 
