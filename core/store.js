@@ -1,5 +1,7 @@
 import Event from './event';
 
+import { reactive } from './helpers';
+
 export default class Store {
   #event;
 
@@ -66,17 +68,27 @@ export default class Store {
   static proxyState(context, state = {}) {
     const event = context.#event;
 
-    const handler = {
-      set: (target, property, value) => {
-        target[property] = value;
-
-        event.emit('storeStateChange', { id: context.id, state: target });
-
-        return true;
+    const reactiveState = reactive(state, {
+      set: (target, key, value) => {
+        event.emit('_lost_internal_:stateChange', {
+          id: context.id, target, key, value,
+        });
       },
-      get: (target, property, receiver) => Reflect.get(target, property, receiver),
-    };
+    });
 
-    return new Proxy(state, handler);
+    return reactiveState;
+
+    // const handler = {
+    //   set: (target, property, value) => {
+    //     target[property] = value;
+
+    //     event.emit('storeStateChange', { id: context.id, state: target });
+
+    //     return true;
+    //   },
+    //   get: (target, property, receiver) => Reflect.get(target, property, receiver),
+    // };
+
+    // return new Proxy(state, handler);
   }
 }

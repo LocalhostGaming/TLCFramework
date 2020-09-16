@@ -2,6 +2,8 @@ import Event from './event';
 import Store from './store';
 import Module from './module';
 
+import { reactive } from './helpers';
+
 export default class Lost {
   #mode;
 
@@ -98,27 +100,12 @@ export default class Lost {
   }
 
   static setData(context, object) {
-    const handler = {
-      set: (target, key, value) => {
-        target[key] = value;
-        context.#event.emit('updateRootData');
+    const data = reactive(object, {
+      set: () => {
+        context.#event.emit('_lost_internal_:setRootData');
       },
-      get: (target, key) => {
-        if (key === 'isProxy') { return true; }
+    });
 
-        const prop = target[key];
-
-        // return if property not found
-        // eslint-disable-next-line consistent-return
-        if (typeof prop === 'undefined') { return; }
-
-        // set value as proxy if object
-        if (!prop.isProxy && typeof prop === 'object') { target[key] = new Proxy(prop, handler); }
-
-        return target[key];
-      },
-    };
-
-    context.data = new Proxy((object || {}), handler);
+    context.data = data;
   }
 }
