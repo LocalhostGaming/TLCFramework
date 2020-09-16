@@ -70,9 +70,7 @@ export default class Store {
 
     const reactiveState = reactive(state, {
       set: (target, key, value) => {
-        event.emit('_lost_internal_:stateChange', {
-          id: context.id, target, key, value,
-        });
+        event.emit('stateChange', { target, key, value });
       },
     });
 
