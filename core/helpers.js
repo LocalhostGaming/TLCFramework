@@ -16,7 +16,6 @@ const reactive = (object, handler) => {
       target[key] = value;
       return true;
     },
-    has: (oTarget, sKey) => sKey in oTarget || oTarget.hasItem(sKey),
   };
 
   return new Proxy(object, proxyHandler);
