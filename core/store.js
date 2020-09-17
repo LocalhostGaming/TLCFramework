@@ -70,23 +70,10 @@ export default class Store {
 
     const reactiveState = reactive(state, {
       set: (target, key, value) => {
-        event.emit('stateChange', { target, key, value });
+        event.emit('stateChange', target, key, value);
       },
     });
 
     return reactiveState;
-
-    // const handler = {
-    //   set: (target, property, value) => {
-    //     target[property] = value;
-
-    //     event.emit('storeStateChange', { id: context.id, state: target });
-
-    //     return true;
-    //   },
-    //   get: (target, property, receiver) => Reflect.get(target, property, receiver),
-    // };
-
-    // return new Proxy(state, handler);
   }
 }
