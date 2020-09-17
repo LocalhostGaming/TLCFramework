@@ -1,12 +1,12 @@
 export default class Event {
   #events = {};
 
-  emit(event, data = {}) {
+  emit(event, ...params) {
     if (!(event in this.#events)) {
       return [];
     }
 
-    return this.#events[event].map((callback) => callback(data));
+    return this.#events[event].map((callback) => callback(...params));
   }
 
   on(event, callback) {
