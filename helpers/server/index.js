@@ -1,6 +1,9 @@
 import onNetCallback from './onNetCallback';
+import onLocalCallback from './onLocalCallback';
+import emitLocalCallback from './emitLocalCallback';
 
 export {
-  // eslint-disable-next-line import/prefer-default-export
   onNetCallback,
+  onLocalCallback,
+  emitLocalCallback,
 };
