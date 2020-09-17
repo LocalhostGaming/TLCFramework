@@ -2,8 +2,6 @@ import Event from './event';
 import Store from './store';
 import Module from './module';
 
-import { reactive } from './helpers';
-
 export default class Lost {
   #mode;
 
@@ -100,12 +98,12 @@ export default class Lost {
   }
 
   static setData(context, object) {
-    const data = reactive(object, {
-      set: () => {
-        context.#event.emit('_lost_internal_:setRootData');
-      },
-    });
+    Object.entries(object).forEach(([key, value]) => {
+      if (key in context) {
+        throw new Error(`Property ${key} already exists`);
+      }
 
-    context.data = data;
+      context[key] = value;
+    });
   }
 }
