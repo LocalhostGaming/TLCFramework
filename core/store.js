@@ -71,6 +71,10 @@ export default class Store {
     const reactiveState = reactive(state, {
       set: (target, key, value) => {
         event.emit('stateChange', target, key, value);
+
+        target[key] = value;
+
+        return true;
       },
     });
 

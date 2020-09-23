@@ -13,7 +13,7 @@ export default class Lost {
 
   #modules = [];
 
-  constructor(object) {
+  constructor(object = Object) {
     const { mode, data } = object || {};
 
     if (mode) {
@@ -72,6 +72,30 @@ export default class Lost {
     const uid = modules.length + 1;
 
     modules.push(new Module(uid, object, root));
+  }
+
+  modules(array) {
+    if (array.constructor.name !== 'Array') {
+      throw new TypeError('Invalid parameter passed in \'modules\'');
+    }
+
+    const isDevelopment = this.#mode !== 'production';
+
+    const modules = isDevelopment ? this._modules : this.#modules;
+
+    const stores = isDevelopment ? this._store : this.#stores;
+
+    const root = {
+      root: this,
+      stores,
+      event: this.#storeEvent,
+    };
+
+    const uid = modules.length + 1;
+
+    array.forEach((module) => {
+      modules.push(new Module(uid, module, root));
+    });
   }
 
   store(object) {
