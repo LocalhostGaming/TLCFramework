@@ -34,22 +34,6 @@ export default class Lost {
     this.#storeEvent = new Event();
 
     if (data) Lost.setData(this, data);
-
-    on('onResourceStart', (resourceName) => {
-      // check if resource name is TLCRP
-      if (GetCurrentResourceName() !== resourceName) {
-        return;
-      }
-      this.#event.emit('lost:onResourceStart');
-    });
-
-    on('onResourceStop', (resourceName) => {
-      // check if resource name is TLCRP
-      if (GetCurrentResourceName() !== resourceName) {
-        return;
-      }
-      this.#event.emit('lost:onResourceStop');
-    });
   }
 
   get mode() {
