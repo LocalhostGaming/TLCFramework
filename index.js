@@ -27,18 +27,6 @@ class Lost {
     Lost.event.on(event, callback);
   }
 
-  static setData(context, data) {
-    const self = context;
-
-    Object.entries(data).forEach(([key, value]) => {
-      if (key in self) {
-        throw new LostDuplicateError(`data '${key}' already exists in main`);
-      }
-
-      self[key] = value;
-    });
-  }
-
   store(object = Object) {
     const count = this._stores.size + 1;
 
@@ -65,6 +53,18 @@ class Lost {
 
     this._modules.set(key, proxyModule);
     this._modules.get(key).initialize();
+  }
+
+  static setData(context, data) {
+    const self = context;
+
+    Object.entries(data).forEach(([key, value]) => {
+      if (key in self) {
+        throw new LostDuplicateError(`data '${key}' already exists in main`);
+      }
+
+      self[key] = value;
+    });
   }
 }
 
