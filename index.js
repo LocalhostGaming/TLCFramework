@@ -11,12 +11,14 @@ class Lost {
   _stores = new Map();
 
   constructor(object = Object) {
-    const { data } = object || {};
+    const { data, options } = object || {};
 
     if (data) {
       if (typeof data !== 'object') throw new LostTypeError(`'data' must be type of object`);
       Lost.setData(this, data);
     }
+
+    if (options) this._options = options;
   }
 
   emit(event, ...params) {
