@@ -39,10 +39,18 @@ export default class Module {
 
       if ('_options' in this.$root) {
         const options = this.$root._options;
-        if (this._name && options.logStartedModule) console.log(`[TLCFramework] Started module '${this._name}'`);
+        if (this._name && options.logStartedModule) {
+          console.log(`${'\x1b[36m'}[TLCFramework]${'\x1b[0m'} Started module '${this._name}'`);
+        }
       }
 
-      this.setup();
+      try {
+        this.setup();
+      } catch (error) {
+        const moduleError = new Error(error.message);
+        moduleError.name = `module-error / ${this._name}`
+        throw moduleError;
+      }
     }
   }
 
