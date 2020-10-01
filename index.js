@@ -4,17 +4,22 @@ import { proxy } from './helpers/index';
 import { LostTypeError, LostDuplicateError } from './class/error/index';
 import * as error from './class/error/index';
 
+import * as globalHelpers from './script/helpers/global/index';
+import * as clientHelpers from './script/helpers/client/index';
+import * as serverHelpers from './script/helpers/server/index';
+
 class Lost {
-  static event = new Event();
+  event = new Event();
 
   _modules = new Map();
+
   _stores = new Map();
 
   constructor(object = Object) {
     const { data, options } = object || {};
 
     if (data) {
-      if (typeof data !== 'object') throw new LostTypeError(`'data' must be type of object`);
+      if (typeof data !== 'object') throw new LostTypeError('\'data\' must be type of object');
       Lost.setData(this, data);
     }
 
@@ -22,11 +27,11 @@ class Lost {
   }
 
   emit(event, ...params) {
-    Lost.event.emit(event, ...params);
+    this.event.emit(event, ...params);
   }
 
   on(event, callback) {
-    Lost.event.on(event, callback);
+    this.event.on(event, callback);
   }
 
   store(object = Object) {
@@ -47,7 +52,7 @@ class Lost {
         target[key] = value;
 
         return true;
-      }
+      },
     });
 
     const count = this._modules.size + 1;
@@ -71,8 +76,10 @@ class Lost {
 }
 
 export {
-  proxy,
-  error
+  error,
+  globalHelpers,
+  clientHelpers,
+  serverHelpers,
 };
 
 export default Lost;
