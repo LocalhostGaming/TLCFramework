@@ -7,6 +7,7 @@ import * as error from './class/error/index';
 import * as globalHelpers from './script/helpers/global/index';
 import * as clientHelpers from './script/helpers/client/index';
 import * as serverHelpers from './script/helpers/server/index';
+import * as utils from './script/utils/index';
 
 class Lost {
   event = new Event();
@@ -80,6 +81,7 @@ export {
   globalHelpers,
   clientHelpers,
   serverHelpers,
+  utils,
 };
 
 export default Lost;
