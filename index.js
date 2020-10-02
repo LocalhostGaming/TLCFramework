@@ -47,10 +47,28 @@ class Lost {
         const isModule = '_isModule' in target;
 
         if (isModule && key in target._data) {
+          // this will update _data object to trigger another proxt trap
           target._data[key] = value;
         }
 
-        target[key] = value;
+        const watchers = target._watchers;
+        const methods = target._methods;
+
+        // check if there is an watcher on current property
+        if (watchers && key in watchers) {
+          const oldValue = target[key];
+
+          if (typeof watchers[key] === 'string') {
+            if (watchers[key] in methods) {
+              const methodKey = watchers[key];
+              target[methodKey](value, oldValue);
+            } else {
+              throw new LostReferenceError(`can't find '${watchers[key]}' in methods`);
+            }
+          } else {
+            watchers[key](value, oldValue);
+          }
+        }
 
         return true;
       },

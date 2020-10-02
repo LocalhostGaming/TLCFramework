@@ -87,23 +87,11 @@ export default class Module {
 
     const proxyData = proxy(data, {
       set: (target, key, value) => {
-        const watchers = self._watchers;
-        const methods = self._methods;
-
-        if (watchers && key in watchers) {
-          const oldValue = target[key];
-
-          if (typeof watchers[key] === 'string') {
-            if (watchers[key] in methods) {
-              const methodKey = watchers[key];
-              self[methodKey](value, oldValue);
-            } else {
-              throw new LostReferenceError(`can't find '${watchers[key]}' in methods`);
-            }
-          } else {
-            watchers[key](value, oldValue);
-          }
+        if (!(key in context)) {
+          throw new LostReferenceError(`property '${key}' is undefined`);
         }
+        
+        context[key] = value;
 
         target[key] = value;
 
