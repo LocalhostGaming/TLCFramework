@@ -1,6 +1,4 @@
-const isClient = process.browser;
-
-const fs = isClient ? undefined : require('fs');
+import fs from 'fs';
 
 export default {
   async write(filename, payload) {
